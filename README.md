@@ -1,3 +1,88 @@
 # RC4 - Verilog
 
-TODO
+### General Information
+- 75MHz speed was achived on the Nexys 4 (xc7a100tcsg324-1)
+- 483 cycles after the reset, encrypted output gets generated
+- Every cycle one byte gets encrypted
+- To use the RC4 block as an cheap PRNG just put a 8'b00 into the PLAIN_BYTE_IN
+
+### Resource Utilization on Nexys 4 (xc7a100tcsg324-1)
+(This inlcudes the test code from controller.v)
+| Resource | Utilization | Available | Utilization (%) |
+| ------ | ------ | ------ | ------ |
+| LUT | 11059 | 63400 | 17.44 |
+| LUTRAM | 16 | 19000 | 0.08 |
+| FF | 2293 | 126800 | 1.81 |
+| IO | 19 | 210 | 9.05 |
+| BUFG | 2 | 32 | 6.25 |
+| MMCM | 1 | 6 | 16.67 |
+
+### Implementation Information
+##### For details see rc4_tb.v or controller.v
+#### Instanciation
+```verilog
+rc4 rc4_interface(
+    .CLK_IN(CLK),                       // Clock input
+    .RESET_N_IN(RESET_N),               // Active low reset line
+    .KEY_SIZE_IN(KEY_SIZE),             // Key size in bytes
+    .KEY_BYTE_IN(KEY_BYTE),             // During the setup the key is transfared byte by byte via this register
+    .PLAIN_BYTE_IN(PLAIN_BYTE),         // During the normal operation every cycle one plaintext byte is transfared via this register for encryption (for PRNG operation just set 8'h00 as input)
+    .START_IN(START),                   // One positive clock cycle on this register signals the RC4 module that it should start the setup process
+    .STOP_IN(STOP),                     // One positive clock cycle on this register signals the RC4 module that it should stop (reset --> return to IDLE)
+    .HOLD_IN(HOLD),                     // As long as this register is pulled high no further encryption / PRNG generation happens (waites for a low signal)
+    .START_KEY_CPY_OUT(START_KEY_CPY),  // During the setup this wire gets pulled to high for one clock cycle to indicate the start of the key transfare to the RC4 module
+    .BUSY_OUT(BUSY),                    // If the RC4 module is not in IDLE this signal is pulled to high
+    .READ_PLAINTEXT_OUT(READ_PLAINTEXT),// After the setup is complete, this wire gets pulled to high for one clock cycle to indicate the start of the normal operation (if a plaintext should be encrypted it now needs to be placed into the PLAIN_BYTE register one byte after the other every clock cycle)
+    .ENC_BYTE_OUT(ENC_BYTE)             // One clock cycle after the plaintext byte was put into the PLAIN_BYTE register the encrypted byte needs to be copied from the ENC_BYTE register
+);
+```
+
+#### Key Transfare Code
+```verilog
+always @(posedge CLK)
+begin
+    if (START_KEY_CPY || key_counter)
+    begin
+        KEY_BYTE <= KEY[key_counter];
+        if (key_counter == KEY_SIZE-1)
+            key_counter <= 0;
+        else
+            key_counter <= key_counter +1;
+    end
+end
+```
+
+#### Plaintext Transfare Code
+```verilog
+always @(posedge CLK)
+begin
+    if (READ_PLAINTEXT || plain_counter)
+    begin
+        PLAIN_BYTE <= PLAINTEXT[plain_counter];
+        if (plain_counter == PLAINTEXT_SIZE-1)
+            plain_counter <= 0;
+        else
+            plain_counter <= plain_counter +1;
+    end
+end
+```
+
+#### Plaintext Transfare Code
+```verilog
+always @(posedge CLK)
+begin
+    if (plain_counter == 2 || cipher_counter)
+    begin
+        CAPTURED_CIPHERTEXT[cipher_counter] <= ENC_BYTE;
+        if (cipher_counter == PLAINTEXT_SIZE-1)
+            cipher_counter <= 0;
+        else
+            cipher_counter <= cipher_counter +1;
+    end
+end
+```
+
+### Useful links
+- https://en.wikipedia.org/wiki/RC4
+- https://www.binaryhexconverter.com/binary-to-hex-converter
+- https://gchq.github.io/CyberChef
