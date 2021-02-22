@@ -2,6 +2,8 @@
 
 ### General Information
 - 75MHz speed was achived on the Nexys 4 (xc7a100tcsg324-1)
+    - WNS=0.299ns / TNS=0.0ns / WHS=0.103ns / THS=0.0ns
+    - Total On-Chip Pwer: 0.232W
 - 483 cycles after the reset, encrypted output gets generated
 - Every cycle one byte gets encrypted
 - To use the RC4 block as an cheap PRNG just put a 8'b00 into the PLAIN_BYTE_IN
