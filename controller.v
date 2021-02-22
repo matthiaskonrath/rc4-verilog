@@ -190,7 +190,6 @@ begin
         //    CIPHERTEXT TRANSFARE (ELEMENT 32)
         //     LED[7:0] --> 01111001 --> 0x79 
         // ---- ---- ---- ---- ---- ---- ---- ----
-        //if (trigger == 0 && plain_counter == 2)
         if (trigger == 0 && cipher_counter == PLAINTEXT_SIZE-1)
         begin
             HOLD <= 1'b1;
