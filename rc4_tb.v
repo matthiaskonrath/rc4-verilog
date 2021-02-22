@@ -126,7 +126,7 @@ begin
         else
             plain_counter <= plain_counter +1;
     end
-end // STOPPLAINTEXT TRANSFARE
+end // STOP PLAINTEXT TRANSFARE
 
 
 
