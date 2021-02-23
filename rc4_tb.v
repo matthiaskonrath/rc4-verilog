@@ -103,11 +103,17 @@ always @(posedge CLK)
 begin
     if (START_KEY_CPY || key_counter)
     begin
-        KEY_BYTE <= KEY[key_counter];
-        if (key_counter == KEY_SIZE-1)
+        
+        if (key_counter == KEY_SIZE)
+        begin
             key_counter <= 0;
+            KEY_BYTE <= 8'b00;
+        end
         else
+        begin
             key_counter <= key_counter +1;
+            KEY_BYTE <= KEY[key_counter];
+        end
     end
 end // STOP KEY TRANSFARE
 
@@ -120,13 +126,18 @@ always @(posedge CLK)
 begin
     if (READ_PLAINTEXT || plain_counter)
     begin
-        PLAIN_BYTE <= PLAINTEXT[plain_counter];
-        if (plain_counter == PLAINTEXT_SIZE-1)
+        if (plain_counter == PLAINTEXT_SIZE)
+        begin
             plain_counter <= 0;
+            PLAIN_BYTE <= 8'b00;
+        end
         else
+        begin
             plain_counter <= plain_counter +1;
+            PLAIN_BYTE <= PLAINTEXT[plain_counter];
+        end
     end
-end // STOP PLAINTEXT TRANSFARE
+end // STOPPLAINTEXT TRANSFARE
 
 
 
@@ -161,10 +172,12 @@ begin
     RESET_N = 0;
     HOLD = 0;
     STOP = 0;
+    PLAIN_BYTE = 0;
     key_counter = 0;
     plain_counter = 0;
     cipher_counter = 0;
     error = 0;
+    x = 0;
     // KEY = ae6c3c41884d35df3ab5adf30f5b2d360938c658341886b0ba510b421e5ab405
     KEY[8'h00] = 8'hae; KEY[8'h01] = 8'h6c; KEY[8'h02] = 8'h3c; KEY[8'h03] = 8'h41; KEY[8'h04] = 8'h88; KEY[8'h05] = 8'h4d; KEY[8'h06] = 8'h35; KEY[8'h07] = 8'hdf;
     KEY[8'h08] = 8'h3a; KEY[8'h09] = 8'hb5; KEY[8'h0a] = 8'had; KEY[8'h0b] = 8'hf3; KEY[8'h0c] = 8'h0f; KEY[8'h0d] = 8'h5b; KEY[8'h0e] = 8'h2d; KEY[8'h0f] = 8'h36;
@@ -189,6 +202,11 @@ begin
     $display("[*] KNOWN CIPHERTEXT: (SIZE: 0x%H)", PLAINTEXT_SIZE);
     $display("[+]    KNOWN_CIPHERTEXT[00:15]={0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H}", KNOWN_CIPHERTEXT[8'h00], KNOWN_CIPHERTEXT[8'h01], KNOWN_CIPHERTEXT[8'h02], KNOWN_CIPHERTEXT[8'h03], KNOWN_CIPHERTEXT[8'h04], KNOWN_CIPHERTEXT[8'h05], KNOWN_CIPHERTEXT[8'h06], KNOWN_CIPHERTEXT[8'h07], KNOWN_CIPHERTEXT[8'h08], KNOWN_CIPHERTEXT[8'h09], KNOWN_CIPHERTEXT[8'h0a], KNOWN_CIPHERTEXT[8'h0b], KNOWN_CIPHERTEXT[8'h0c], KNOWN_CIPHERTEXT[8'h0d], KNOWN_CIPHERTEXT[8'h0e], KNOWN_CIPHERTEXT[8'h0f]);
     $display("[+]    KNOWN_CIPHERTEXT[16:31]={0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H}", KNOWN_CIPHERTEXT[8'h10], KNOWN_CIPHERTEXT[8'h11], KNOWN_CIPHERTEXT[8'h12], KNOWN_CIPHERTEXT[8'h13], KNOWN_CIPHERTEXT[8'h14], KNOWN_CIPHERTEXT[8'h15], KNOWN_CIPHERTEXT[8'h16], KNOWN_CIPHERTEXT[8'h17], KNOWN_CIPHERTEXT[8'h18], KNOWN_CIPHERTEXT[8'h19], KNOWN_CIPHERTEXT[8'h1a], KNOWN_CIPHERTEXT[8'h1b], KNOWN_CIPHERTEXT[8'h1c], KNOWN_CIPHERTEXT[8'h1d], KNOWN_CIPHERTEXT[8'h1e], KNOWN_CIPHERTEXT[8'h1f]);
+    // Null the ciphertext
+    for (x=0; x < PLAINTEXT_SIZE; x = x+1)
+    begin
+        CAPTURED_CIPHERTEXT[x] = 0;
+    end
     #5;
     RESET_N = 1;
     // STOP SETUP
@@ -214,7 +232,7 @@ begin
     $display("[+]    CAPTURED_CIPHERTEXT[00:15]={0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H}", CAPTURED_CIPHERTEXT[8'h00], CAPTURED_CIPHERTEXT[8'h01], CAPTURED_CIPHERTEXT[8'h02], CAPTURED_CIPHERTEXT[8'h03], CAPTURED_CIPHERTEXT[8'h04], CAPTURED_CIPHERTEXT[8'h05], CAPTURED_CIPHERTEXT[8'h06], CAPTURED_CIPHERTEXT[8'h07], CAPTURED_CIPHERTEXT[8'h08], CAPTURED_CIPHERTEXT[8'h09], CAPTURED_CIPHERTEXT[8'h0a], CAPTURED_CIPHERTEXT[8'h0b], CAPTURED_CIPHERTEXT[8'h0c], CAPTURED_CIPHERTEXT[8'h0d], CAPTURED_CIPHERTEXT[8'h0e], CAPTURED_CIPHERTEXT[8'h0f]);
     $display("[+]    CAPTURED_CIPHERTEXT[16:31]={0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H}", CAPTURED_CIPHERTEXT[8'h10], CAPTURED_CIPHERTEXT[8'h11], CAPTURED_CIPHERTEXT[8'h12], CAPTURED_CIPHERTEXT[8'h13], CAPTURED_CIPHERTEXT[8'h14], CAPTURED_CIPHERTEXT[8'h15], CAPTURED_CIPHERTEXT[8'h16], CAPTURED_CIPHERTEXT[8'h17], CAPTURED_CIPHERTEXT[8'h18], CAPTURED_CIPHERTEXT[8'h19], CAPTURED_CIPHERTEXT[8'h1a], CAPTURED_CIPHERTEXT[8'h1b], CAPTURED_CIPHERTEXT[8'h1c], CAPTURED_CIPHERTEXT[8'h1d], CAPTURED_CIPHERTEXT[8'h1e], CAPTURED_CIPHERTEXT[8'h1f]);
 
-    for (x=0; x < PLAINTEXT_SIZE-1; x= x+1)
+    for (x=0; x < PLAINTEXT_SIZE; x = x+1)
     begin
         if (KNOWN_CIPHERTEXT[x] != CAPTURED_CIPHERTEXT[x])
         begin

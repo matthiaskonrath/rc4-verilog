@@ -32,7 +32,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-
 module rc4(
     input wire CLK_IN,
     input wire RESET_N_IN,
@@ -47,9 +46,7 @@ module rc4(
     output reg READ_PLAINTEXT_OUT,
     output reg [7:0] ENC_BYTE_OUT
     );
-    
-    parameter MAX_KEY_LENGTH_IN_BYTES=32;   // 256 Bit Key
-    
+       
     /*
         RC4 - FSM
         States:
@@ -71,7 +68,7 @@ module rc4(
     
     reg [1:0] fsm;
     reg [7:0] array_s [0:255];
-    reg [7:0] key [0:MAX_KEY_LENGTH_IN_BYTES-1];
+    reg [7:0] key [0:31];
     reg [7:0] key_length;
     reg [7:0] key_cpy_counter;
     reg [7:0] ksa_counter;
@@ -120,6 +117,11 @@ module rc4(
             array_s[8'hd0] <= 8'hd0; array_s[8'hd1] <= 8'hd1; array_s[8'hd2] <= 8'hd2; array_s[8'hd3] <= 8'hd3; array_s[8'hd4] <= 8'hd4; array_s[8'hd5] <= 8'hd5; array_s[8'hd6] <= 8'hd6; array_s[8'hd7] <= 8'hd7; array_s[8'hd8] <= 8'hd8; array_s[8'hd9] <= 8'hd9; array_s[8'hda] <= 8'hda; array_s[8'hdb] <= 8'hdb; array_s[8'hdc] <= 8'hdc; array_s[8'hdd] <= 8'hdd; array_s[8'hde] <= 8'hde; array_s[8'hdf] <= 8'hdf;
             array_s[8'he0] <= 8'he0; array_s[8'he1] <= 8'he1; array_s[8'he2] <= 8'he2; array_s[8'he3] <= 8'he3; array_s[8'he4] <= 8'he4; array_s[8'he5] <= 8'he5; array_s[8'he6] <= 8'he6; array_s[8'he7] <= 8'he7; array_s[8'he8] <= 8'he8; array_s[8'he9] <= 8'he9; array_s[8'hea] <= 8'hea; array_s[8'heb] <= 8'heb; array_s[8'hec] <= 8'hec; array_s[8'hed] <= 8'hed; array_s[8'hee] <= 8'hee; array_s[8'hef] <= 8'hef;
             array_s[8'hf0] <= 8'hf0; array_s[8'hf1] <= 8'hf1; array_s[8'hf2] <= 8'hf2; array_s[8'hf3] <= 8'hf3; array_s[8'hf4] <= 8'hf4; array_s[8'hf5] <= 8'hf5; array_s[8'hf6] <= 8'hf6; array_s[8'hf7] <= 8'hf7; array_s[8'hf8] <= 8'hf8; array_s[8'hf9] <= 8'hf9; array_s[8'hfa] <= 8'hfa; array_s[8'hfb] <= 8'hfb; array_s[8'hfc] <= 8'hfc; array_s[8'hfd] <= 8'hfd; array_s[8'hfe] <= 8'hfe; array_s[8'hff] <= 8'hff;
+            // Reset KEY
+            key[8'h00] <= 8'h00; key[8'h01] <= 8'h00; key[8'h02] <= 8'h00; key[8'h03] <= 8'h00; key[8'h04] <= 8'h00; key[8'h05] <= 8'h00; key[8'h06] <= 8'h00; key[8'h07] <= 8'h00;
+            key[8'h08] <= 8'h00; key[8'h09] <= 8'h00; key[8'h0a] <= 8'h00; key[8'h0b] <= 8'h00; key[8'h0c] <= 8'h00; key[8'h0d] <= 8'h00; key[8'h0e] <= 8'h00; key[8'h0f] <= 8'h00;
+            key[8'h10] <= 8'h00; key[8'h11] <= 8'h00; key[8'h12] <= 8'h00; key[8'h13] <= 8'h00; key[8'h14] <= 8'h00; key[8'h15] <= 8'h00; key[8'h16] <= 8'h00; key[8'h17] <= 8'h00;
+            key[8'h18] <= 8'h00; key[8'h19] <= 8'h00; key[8'h1a] <= 8'h00; key[8'h1b] <= 8'h00; key[8'h1c] <= 8'h00; key[8'h1d] <= 8'h00; key[8'h1e] <= 8'h00; key[8'h1f] <= 8'h00;
         end // STOP RESET
         else
         begin

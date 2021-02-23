@@ -1,10 +1,10 @@
 # RC4 - Verilog
 
 ### General Information
-- 75MHz speed was achived on the Nexys 4 (xc7a100tcsg324-1)
-    - WNS=0.299ns / TNS=0.0ns / WHS=0.103ns / THS=0.0ns
+- 85MHz speed was achived on the Nexys 4 (xc7a100tcsg324-1)
+    - WNS=0.165ns / TNS=0.0ns / WHS=0.072ns / THS=0.0ns
     - Total On-Chip Pwer: 0.232W
-- 483 cycles after the reset, encrypted output gets generated
+- ~500 cycles after the reset, encrypted output gets generated
 - Every cycle one byte gets encrypted
 - To use the RC4 block as an cheap PRNG just put a 8'b00 into the PLAIN_BYTE_IN
 
@@ -12,9 +12,8 @@
 (This inlcudes the test code from controller.v)
 | Resource | Utilization | Available | Utilization (%) |
 | ------ | ------ | ------ | ------ |
-| LUT | 11059 | 63400 | 17.44 |
-| LUTRAM | 16 | 19000 | 0.08 |
-| FF | 2293 | 126800 | 1.81 |
+| LUT | 1550 | 63400 | 18.22 |
+| FF | 2548 | 126800 | 2.01 |
 | IO | 19 | 210 | 9.05 |
 | BUFG | 2 | 32 | 6.25 |
 | MMCM | 1 | 6 | 16.67 |
@@ -45,11 +44,17 @@ always @(posedge CLK)
 begin
     if (START_KEY_CPY || key_counter)
     begin
-        KEY_BYTE <= KEY[key_counter];
-        if (key_counter == KEY_SIZE-1)
+        
+        if (key_counter == KEY_SIZE)
+        begin
             key_counter <= 0;
+            KEY_BYTE <= 8'b00;
+        end
         else
+        begin
             key_counter <= key_counter +1;
+            KEY_BYTE <= KEY[key_counter];
+        end
     end
 end
 ```
@@ -60,11 +65,16 @@ always @(posedge CLK)
 begin
     if (READ_PLAINTEXT || plain_counter)
     begin
-        PLAIN_BYTE <= PLAINTEXT[plain_counter];
-        if (plain_counter == PLAINTEXT_SIZE-1)
+        if (plain_counter == PLAINTEXT_SIZE)
+        begin
             plain_counter <= 0;
+            PLAIN_BYTE <= 8'b00;
+        end
         else
+        begin
             plain_counter <= plain_counter +1;
+            PLAIN_BYTE <= PLAINTEXT[plain_counter];
+        end
     end
 end
 ```

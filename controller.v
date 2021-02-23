@@ -60,20 +60,22 @@ assign led[7:0] = cipher_byte;
 // ---- ---- ---- ---- ---- ---- ---- ----
 //               CLOCK SETUP
 // ---- ---- ---- ---- ---- ---- ---- ----
+wire CLK85MHZ;
 wire CLK75MHZ;
 wire CLK50MHZ;
 wire CLK25MHZ;
 wire CLK10MHZ;
 wire alternative_clk;
-assign alternative_clk = CLK75MHZ;
+assign alternative_clk = CLK85MHZ;
 wire clk_locked;
 
 clk_wiz_0 clk_generator (
   // Clock out ports
-  .clk_out1(CLK75MHZ),
-  .clk_out2(CLK50MHZ),
-  .clk_out3(CLK25MHZ),
-  .clk_out4(CLK10MHZ),
+  .clk_out1(CLK10MHZ),
+  .clk_out2(CLK25MHZ),
+  .clk_out3(CLK50MHZ),
+  .clk_out4(CLK75MHZ),
+  .clk_out5(CLK85MHZ),
   .resetn(1'b1),
   .locked(clk_locked),
   .clk_in1(CLK100MHZ)
@@ -163,12 +165,17 @@ begin
         // ---- ---- ---- ---- ---- ---- ---- ----
         if (START_KEY_CPY || key_counter)
         begin
-            KEY_BYTE <= KEY[key_counter];
-            if (key_counter == 31)
+            if (key_counter == KEY_SIZE)
+            begin
                 key_counter <= 0;
+                KEY_BYTE <= 8'b00;
+            end
             else
+            begin
                 key_counter <= key_counter +1;
-        end // STOP KEY TRANSFARE
+                KEY_BYTE <= KEY[key_counter];
+            end
+        end// STOP KEY TRANSFARE
         
         
         
@@ -177,11 +184,16 @@ begin
         // ---- ---- ---- ---- ---- ---- ---- ----
         if (READ_PLAINTEXT || plain_counter)
         begin
-            PLAIN_BYTE <= PLAINTEXT[plain_counter];
-            if (plain_counter == PLAINTEXT_SIZE-1)
+            if (plain_counter == PLAINTEXT_SIZE)
+            begin
                 plain_counter <= 0;
+                PLAIN_BYTE <= 8'b00;
+            end
             else
+            begin
                 plain_counter <= plain_counter +1;
+                PLAIN_BYTE <= PLAINTEXT[plain_counter];
+            end
         end // STOP PLAINTEXT TRANSFARE
         
         
@@ -190,6 +202,7 @@ begin
         //    CIPHERTEXT TRANSFARE (ELEMENT 32)
         //     LED[7:0] --> 01111001 --> 0x79 
         // ---- ---- ---- ---- ---- ---- ---- ----
+        //if (trigger == 0 && plain_counter == 2)
         if (trigger == 0 && cipher_counter == PLAINTEXT_SIZE-1)
         begin
             HOLD <= 1'b1;
