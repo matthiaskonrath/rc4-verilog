@@ -84,6 +84,17 @@ begin
 end
 ```
 
+### Project files
+
+| File | Function |
+| ------ | ------ |
+| rc4.v | RC4 implementation in verilog |
+| rc4_tb.v | Testbech for the verilog implementation of RC4 |
+| rc4.py | RC4 implementation in pure python 2.7 (for debuging purposes) |
+| controller.v | This is the top module for the tests on the Nexys 4 board |
+| Nexys4_Master.xdc | Nexys 4 constrained file (for the tests in controller.v) |
+| LICENSE | MIT License file |
+
 ### Useful links
 - https://en.wikipedia.org/wiki/RC4
 - https://www.binaryhexconverter.com/binary-to-hex-converter
