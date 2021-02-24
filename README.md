@@ -69,7 +69,7 @@ begin
 end
 ```
 
-#### Plaintext Transfare Code
+#### Plaintext Transfare Code (stops after the counter overflows or the plaintext size is reached)
 ```verilog
 always @(posedge CLK)
 begin
@@ -89,7 +89,7 @@ begin
 end
 ```
 
-#### Ciphertext Transfare Code
+#### Ciphertext Transfare Code (stops after the counter overflows or the plaintext / ciphertext size is reached)
 ```verilog
 always @(posedge CLK)
 begin
