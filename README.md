@@ -89,7 +89,7 @@ begin
 end
 ```
 
-#### Plaintext Transfare Code
+#### Ciphertext Transfare Code
 ```verilog
 always @(posedge CLK)
 begin
