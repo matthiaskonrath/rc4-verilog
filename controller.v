@@ -60,13 +60,13 @@ assign led[7:0] = cipher_byte;
 // ---- ---- ---- ---- ---- ---- ---- ----
 //               CLOCK SETUP
 // ---- ---- ---- ---- ---- ---- ---- ----
-wire CLK85MHZ;
+wire CLK87MHZ;
 wire CLK75MHZ;
 wire CLK50MHZ;
 wire CLK25MHZ;
 wire CLK10MHZ;
 wire alternative_clk;
-assign alternative_clk = CLK85MHZ;
+assign alternative_clk = CLK87MHZ;
 wire clk_locked;
 
 clk_wiz_0 clk_generator (
@@ -75,7 +75,7 @@ clk_wiz_0 clk_generator (
   .clk_out2(CLK25MHZ),
   .clk_out3(CLK50MHZ),
   .clk_out4(CLK75MHZ),
-  .clk_out5(CLK85MHZ),
+  .clk_out5(CLK87MHZ),
   .resetn(1'b1),
   .locked(clk_locked),
   .clk_in1(CLK100MHZ)
