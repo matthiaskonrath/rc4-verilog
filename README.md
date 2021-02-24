@@ -1,9 +1,9 @@
 # RC4 - Verilog
 
 ### General Information
-- 85MHz speed was achived on the Nexys 4 (xc7a100tcsg324-1)
-    - WNS=0.165ns / TNS=0.0ns / WHS=0.072ns / THS=0.0ns
-    - Total On-Chip Pwer: ~0.23W
+- 87.5MHz speed was achived on the Nexys 4 (xc7a100tcsg324-1)
+    - WNS=0.089 / TNS=0.0ns / WHS=0.026ns / THS=0.0ns
+    - Total On-Chip Pwer: ~0.237W
 - ~500 cycles after the reset, encrypted output gets generated
 - Every cycle one byte gets encrypted
 - To use the RC4 block as an cheap PRNG just put a 8'b00 into the PLAIN_BYTE_IN
@@ -12,7 +12,7 @@
 (This inlcudes the test code from controller.v)
 | Resource | Utilization | Available | Utilization (%) |
 | ------ | ------ | ------ | ------ |
-| LUT | 1550 | 63400 | 18.22 |
+| LUT | 11557 | 63400 | 18.23 |
 | FF | 2548 | 126800 | 2.01 |
 | IO | 19 | 210 | 9.05 |
 | BUFG | 2 | 32 | 6.25 |
