@@ -58,7 +58,7 @@ assign led[7:0] = cipher_byte;
 
 
 // ---- ---- ---- ---- ---- ---- ---- ----
-//               CLOCK SETUP
+//    CLOCK SETUP (via Clocking Wizard)
 // ---- ---- ---- ---- ---- ---- ---- ----
 wire CLK87MHZ;
 wire CLK75MHZ;
