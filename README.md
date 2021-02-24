@@ -30,7 +30,7 @@
 
 ### Implementation Information
 ##### For details see rc4_tb.v or controller.v
-#### Instanciation
+#### Instantiation
 ```verilog
 rc4 rc4_interface(
     .CLK_IN(CLK),                       // Clock input
