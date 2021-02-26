@@ -79,13 +79,11 @@ module rc4(
     // ---- ---- ---- ---- ---- ---- ---- ----
     //                  MAIN
     // ---- ---- ---- ---- ---- ---- ---- ----
-    always @(posedge CLK_IN)
-    begin 
+    always @(posedge CLK_IN) begin 
         // ---- ---- ---- ---- ---- ---- ---- ----
         //              RESET
         // ---- ---- ---- ---- ---- ---- ---- ----
-        if (!RESET_N_IN || STOP_IN)
-        begin
+        if (!RESET_N_IN || STOP_IN) begin
             // SET FSM
             fsm <= IDLE;
             // SET PORTS
@@ -123,8 +121,7 @@ module rc4(
             key[8'h10] <= 8'h00; key[8'h11] <= 8'h00; key[8'h12] <= 8'h00; key[8'h13] <= 8'h00; key[8'h14] <= 8'h00; key[8'h15] <= 8'h00; key[8'h16] <= 8'h00; key[8'h17] <= 8'h00;
             key[8'h18] <= 8'h00; key[8'h19] <= 8'h00; key[8'h1a] <= 8'h00; key[8'h1b] <= 8'h00; key[8'h1c] <= 8'h00; key[8'h1d] <= 8'h00; key[8'h1e] <= 8'h00; key[8'h1f] <= 8'h00;
         end // STOP RESET
-        else
-        begin
+        else begin
             // ---- ---- ---- ---- ---- ---- ---- ----
             //                  FSM
             // ---- ---- ---- ---- ---- ---- ---- ----
@@ -133,8 +130,7 @@ module rc4(
             //                   IDLE
             // ---- ---- ---- ---- ---- ---- ---- ----
             IDLE: begin
-                if (START_IN)
-                begin
+                if (START_IN) begin
                     fsm <= KEY_CPY;
                     START_KEY_CPY_OUT <= 1;
                     BUSY_OUT <= 1'b1;
@@ -145,17 +141,14 @@ module rc4(
             // ---- ---- ---- ---- ---- ---- ---- ----
             KEY_CPY: begin
                 // START KEY_CPY SETUP
-                if (START_KEY_CPY_OUT)
-                begin
+                if (START_KEY_CPY_OUT) begin
                     START_KEY_CPY_OUT <= 0;
                     key_length <= KEY_SIZE_IN;
                 end // STOP KEY_CPY SETUP
-                else
-                begin // START KEY_CPY LOOP
+                else begin // START KEY_CPY LOOP
                     key[key_cpy_counter] <= KEY_BYTE_IN;
                     key_cpy_counter <= key_cpy_counter +1;
-                    if (key_cpy_counter == key_length -1)
-                    begin
+                    if (key_cpy_counter == key_length -1) begin
                         fsm <= KSA;
                         ksa_j <= (ksa_j + array_s[(ksa_counter)] + key[(ksa_counter) % (key_length)]);
                     end
@@ -172,8 +165,7 @@ module rc4(
                     ksa_j <= (ksa_j + array_s[(ksa_counter+1)] + key[(ksa_counter +1) % (key_length)]);
                 array_s[ksa_j] <= array_s[ksa_counter];
                 array_s[ksa_counter] <= array_s[ksa_j];
-                if (ksa_counter == 255)
-                begin
+                if (ksa_counter == 255) begin
                     fsm <= PRGA;
                     prga_j <= prga_j + array_s[prga_counter];
                     READ_PLAINTEXT_OUT <= 1'b1;
@@ -185,10 +177,8 @@ module rc4(
             PRGA: begin
                 if (READ_PLAINTEXT_OUT)
                     READ_PLAINTEXT_OUT <= 1'b0;
-                else
-                begin
-                    if (!HOLD_IN)
-                    begin
+                else begin
+                    if (!HOLD_IN) begin
                         prga_counter <= prga_counter +1;
                         if ((prga_counter +1) == prga_j)
                             prga_j <= prga_j + array_s[prga_counter];

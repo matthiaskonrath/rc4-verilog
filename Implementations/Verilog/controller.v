@@ -117,13 +117,11 @@ rc4 rc4_interface(
 // ---- ---- ---- ---- ---- ---- ---- ----
 //                  MAIN
 // ---- ---- ---- ---- ---- ---- ---- ----
-always @(posedge alternative_clk)
-begin
+always @(posedge alternative_clk) begin
     // ---- ---- ---- ---- ---- ---- ---- ----
     //                  RESET
     // ---- ---- ---- ---- ---- ---- ---- ----
-    if(!sw[0])
-    begin
+    if(!sw[0]) begin
         STOP <= 0;
         HOLD <= 0;
         cipher_byte <= 0;
@@ -142,18 +140,15 @@ begin
         PLAINTEXT[8'h10] = 8'he0; PLAINTEXT[8'h11] = 8'hf8; PLAINTEXT[8'h12] = 8'h51; PLAINTEXT[8'h13] = 8'h2c; PLAINTEXT[8'h14] = 8'hb3; PLAINTEXT[8'h15] = 8'h5a; PLAINTEXT[8'h16] = 8'h75; PLAINTEXT[8'h17] = 8'h79;
         PLAINTEXT[8'h18] = 8'hfd; PLAINTEXT[8'h19] = 8'h79; PLAINTEXT[8'h1a] = 8'h57; PLAINTEXT[8'h1b] = 8'h5c; PLAINTEXT[8'h1c] = 8'hf2; PLAINTEXT[8'h1d] = 8'h87; PLAINTEXT[8'h1e] = 8'hc5; PLAINTEXT[8'h1f] = 8'h95;
     end // STOP RESET
-    else
-    begin
+    else begin
         // ---- ---- ---- ---- ---- ---- ---- ----
         //              START SIGNAL
         // ---- ---- ---- ---- ---- ---- ---- ----
-        if(btnC && btn_debounce)
-        begin
+        if(btnC && btn_debounce) begin
             btn_debounce <= 0;
             START <= 1'b1;
         end
-        if(START)
-        begin
+        if(START) begin
             START <= 1'b0;
         end // STOP START SIGNAL
         
@@ -162,15 +157,13 @@ begin
         // ---- ---- ---- ---- ---- ---- ---- ----
         //              KEY TRNAFARE
         // ---- ---- ---- ---- ---- ---- ---- ----
-        if (START_KEY_CPY || key_counter)
-        begin
+        if (START_KEY_CPY || key_counter) begin
             if (key_counter == KEY_SIZE)
             begin
                 key_counter <= 0;
                 KEY_BYTE <= 8'b00;
             end
-            else
-            begin
+            else begin
                 key_counter <= key_counter +1;
                 KEY_BYTE <= KEY[key_counter];
             end
@@ -181,15 +174,12 @@ begin
         // ---- ---- ---- ---- ---- ---- ---- ----
         //          PLAINTEXT TRNAFARE
         // ---- ---- ---- ---- ---- ---- ---- ----
-        if (READ_PLAINTEXT || plain_counter)
-        begin
-            if (plain_counter == PLAINTEXT_SIZE)
-            begin
+        if (READ_PLAINTEXT || plain_counter) begin
+            if (plain_counter == PLAINTEXT_SIZE) begin
                 plain_counter <= 0;
                 PLAIN_BYTE <= 8'b00;
             end
-            else
-            begin
+            else begin
                 plain_counter <= plain_counter +1;
                 PLAIN_BYTE <= PLAINTEXT[plain_counter];
             end
@@ -202,14 +192,12 @@ begin
         //     LED[7:0] --> 01111001 --> 0x79 
         // ---- ---- ---- ---- ---- ---- ---- ----
         //if (trigger == 0 && plain_counter == 2)
-        if (trigger == 0 && cipher_counter == PLAINTEXT_SIZE-1)
-        begin
+        if (trigger == 0 && cipher_counter == PLAINTEXT_SIZE-1) begin
             HOLD <= 1'b1;
             trigger <= 1;
             cipher_byte <= ENC_BYTE;
         end
-        else
-        begin
+        else begin
             if (plain_counter == 2 || cipher_counter)
                 cipher_counter <= cipher_counter +1;
         end // STOP CIPHERTEXT TRANSFARE
