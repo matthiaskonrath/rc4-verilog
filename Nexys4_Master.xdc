@@ -9,11 +9,6 @@ set_property PACKAGE_PIN E3 [get_ports CLK100MHZ]
 	set_property IOSTANDARD LVCMOS33 [get_ports CLK100MHZ]
 	create_clock -add -name sys_clk_pin -period 10.00 -waveform {0 5} [get_ports CLK100MHZ]
  
-# Active-Low Reset, CPU_RESET button
-set_property PACKAGE_PIN C12 [get_ports resetn]
-# The conversion of 'IOSTANDARD' constraint on 'net' object 'rstn_i' has been applied to the port object 'rstn_i'.
-    set_property IOSTANDARD LVCMOS33 [get_ports resetn]
-
 
 ## Switches
 ##Bank = 34, Pin name = IO_L21P_T3_DQS_34,					Sch name = SW0
