@@ -1,6 +1,6 @@
 # RC4 - Verilog
 
-### General Information
+### General information (pure verilog implementation)
 - 87.5MHz speed was achived on the Nexys 4 (xc7a100tcsg324-1)
     - WNS=0.089 / TNS=0.0ns / WHS=0.026ns / THS=0.0ns
     - Total On-Chip Pwer: ~0.237W
@@ -8,15 +8,23 @@
 - Every cycle one byte gets encrypted
 - To use the RC4 block as an cheap PRNG just put a 8'b00 into the PLAIN_BYTE_IN
 
-### Resource Utilization on Nexys 4 (xc7a100tcsg324-1)
+### Verilog resource utilization on Nexys 4 (xc7a100tcsg324-1)
 (This inlcudes the test code from controller.v)
 | Resource | Utilization | Available | Utilization (%) |
 | ------ | ------ | ------ | ------ |
 | LUT | 11557 | 63400 | 18.23 |
 | FF | 2548 | 126800 | 2.01 |
-| IO | 19 | 210 | 9.05 |
 | BUFG | 2 | 32 | 6.25 |
-| MMCM | 1 | 6 | 16.67 |
+
+### HLS resource utilization on Nexys 4 (xc7a100tcsg324-1)
+(This inlcudes the test code from controller.v)
+| Resource | Utilization | Available | Utilization (%) |
+| ------ | ------ | ------ | ------ |
+| LUT | 432 | 63400 | 0.68 |
+| LUTRAM | 15 | 19000 | 0.08 |
+| FF | 445 | 126800 | 0.35 |
+| BRAM | 0.50 | 135 | 0.37 |
+| BUFG | 2 | 32 | 6.25 |
 
 ### Speed tests
 | Implementation | Device | Frequency | Speed (Mbit/s) | Speed (MB/s) | Notes |
@@ -26,7 +34,7 @@
 | C++ | i7-8665U | unknown | ~120 Mbit/s | ~15 MB/s | not optimized / single threaded |
 | Python | i7-8665U | unknown | ~40 Mbit/s | ~5 MB/s | not optimized / single threaded |
 
-### Implementation Information
+### Implementation information
 ##### For details see rc4_tb.v or controller.v
 #### Instantiation
 ```verilog
