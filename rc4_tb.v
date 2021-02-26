@@ -249,9 +249,9 @@ begin
     // ---- ---- ---- ---- ---- ---- ---- ----
     $display("---- ---- ---- ---- ---- ---- ---- ---- ---- RESULT ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
     if (error == 0)
-        $display("[*] The tests finished successfully ...");
+        $display("[*] ... PASSED ...");
     else
-        $display("[!] The test did NOT finish successfully !!!");
+        $display("[!] ... FAILED ...");
     $display("---- ---- ---- ---- ---- ---- ---- ---- ---- RESULT ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
     // STOP RESULT
     $stop;
