@@ -33,8 +33,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-
-
+from timeit import default_timer as timer
 
 def KSA(key_hex, key_length):
     """
@@ -102,27 +101,38 @@ payload_str_length = len(payload_str)/2
 
 cyphertext = []
 
-print 'KEY:'
+print '[*] KEY:'
 print key_str
 print ''
-print 'Payload:'
+print '[*] Payload:'
 print payload_str
 print ''
 
 array_s = KSA(key_hex, key_length)
-print 'ARRAY_S:'
+print '[*] ARRAY_S:'
 print ''.join('{:02x}'.format(x) for x in array_s)
 print ''
 
 keystream = PRGA(array_s, payload_str_length)
-print 'KEYSTREAM:'
+print '[*] KEYSTREAM:'
 print ''.join('{:02x}'.format(x) for x in keystream)
 print ''
 
-print 'CIPHERTEXT:'
+print '[*] CIPHERTEXT:'
 for i in range(payload_str_length):
     cyphertext.append(ord(payload_str_hex[i]) ^ keystream[i])
 print ''.join('{:02x}'.format(x) for x in cyphertext)
 print ''
 
 
+print '[*] SPEED TEST'
+test_size_bytes = 10000000
+payload_str = "a" * test_size_bytes
+payload_str_hex = payload_str.decode("hex")
+payload_str_length = len(payload_str)/2
+
+start = timer()
+array_s = KSA(key_hex, key_length)
+keystream = PRGA(array_s, payload_str_length)
+stop = timer()
+print '[+] Encrypted {} MB in {:.2f} ({:.2f} MB/s)'.format((test_size_bytes / 1000000), (stop - start), (float(test_size_bytes) / float(stop - start)) / 1000000)
