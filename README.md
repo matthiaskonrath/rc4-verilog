@@ -19,11 +19,11 @@
 | MMCM | 1 | 6 | 16.67 |
 
 ### Speed tests
-| Implementation | Device | Speed | Notes |
-| ------ | ------ | ------ | ------ |
-| Verilog | Nexys4 | ~88 MB/s | optimized implementation |
-| C++ | i7-8665U | ~15 MB/s | not optimized / single threaded |
-| Python | i7-8665U | ~5 MB/s | not optimized / single threaded |
+| Implementation | Device | Speed (Mbit/s) | Speed (MB/s) | Notes |
+| ------ | ------ | ------ | ------ | ------ |
+| Verilog | Nexys4 | ~704 Mbit/s | ~88 MB/s | optimized implementation |
+| C++ | i7-8665U | ~120 Mbit/s | ~15 MB/s | not optimized / single threaded |
+| Python | i7-8665U | ~40 Mbit/s | ~5 MB/s | not optimized / single threaded |
 
 ### Implementation Information
 ##### For details see rc4_tb.v or controller.v
