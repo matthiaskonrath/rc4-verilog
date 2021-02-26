@@ -35,7 +35,6 @@ SOFTWARE.
 
 module controller(
     input wire CLK100MHZ,
-    input wire resetn,
     input wire btnC,
     input wire [3:0] sw,
     output wire [15:0] led
