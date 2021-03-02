@@ -1,5 +1,5 @@
 # RC4 - Verilog
-
+ Verilog (and HLS, C++, Python) implementation of the RC4 stream cipher. 
 ### General information (pure verilog implementation)
 - 87.5MHz speed was achived on the Nexys 4 (xc7a100tcsg324-1)
     - WNS=0.089 / TNS=0.0ns / WHS=0.026ns / THS=0.0ns
