@@ -1,9 +1,9 @@
 # RC4 - Verilog
  Verilog (and HLS, C++, Python) implementation of the RC4 stream cipher. 
 ### General information (pure verilog implementation)
-- 87.5MHz speed was achived on the Nexys 4 (xc7a100tcsg324-1)
-    - WNS=0.089 / TNS=0.0ns / WHS=0.026ns / THS=0.0ns
-    - Total On-Chip Pwer: ~0.237W
+- 115MHz speed was achived on the Nexys 4 (xc7a100tcsg324-1)
+    - WNS=0.008 / TNS=0.0ns / WHS=0.085ns / THS=0.0ns
+    - Total On-Chip Pwer: ~0.234W
 - ~500 cycles after the reset, encrypted output gets generated
 - Every cycle one byte gets encrypted
 - To use the RC4 block as an cheap PRNG just put a 8'b00 into the PLAIN_BYTE_IN
@@ -12,8 +12,8 @@
 (This inlcudes the test code from controller.v)
 | Resource | Utilization | Available | Utilization (%) |
 | ------ | ------ | ------ | ------ |
-| LUT | 11557 | 63400 | 18.23 |
-| FF | 2548 | 126800 | 2.01 |
+| LUT | 11719 | 63400 | 18.48 |
+| FF | 2609 | 126800 | 2.06 |
 | BUFG | 2 | 32 | 6.25 |
 
 ### HLS resource utilization on Nexys 4 (xc7a100tcsg324-1)
@@ -29,7 +29,7 @@
 ### Speed tests
 | Implementation | Device | Frequency | Speed (Mbit/s) | Speed (MB/s) | Optimizations | Source |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-| Verilog | Nexys4 | ~88 MHz | ~704 Mbit/s | ~88 MB/s | optimized implementation | this repository |
+| Verilog | Nexys4 | ~88 MHz | ~920 Mbit/s | ~115 MB/s | optimized implementation | this repository |
 | Assembly | i5-3230M | unknown | ~188 Mbit/s | ~23 MB/s | optimized implementation | https://www.charmysoft.com/app/rc4-cipher |
 | HLS (C++) | Nexys4 | ~200 MHz | ~160 Mbit/s | ~20 MB/s | optimized implementation | this repository |
 | C++ | i7-8665U | unknown | ~120 Mbit/s | ~15 MB/s | not optimized / single threaded | this repository |

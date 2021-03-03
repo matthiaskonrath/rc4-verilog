@@ -75,6 +75,9 @@ module rc4(
     reg [7:0] ksa_j;
     reg [7:0] prga_counter;
     reg [7:0] prga_j;
+    reg [7:0] array_selector;
+    
+    
     
     // ---- ---- ---- ---- ---- ---- ---- ----
     //                  MAIN
@@ -98,6 +101,7 @@ module rc4(
             ksa_j <= 0;
             prga_counter <= 1;
             prga_j <= 0;
+            array_selector <= 0;
             // SET ARRAY_S
             array_s[8'h00] <= 8'h00; array_s[8'h01] <= 8'h01; array_s[8'h02] <= 8'h02; array_s[8'h03] <= 8'h03; array_s[8'h04] <= 8'h04; array_s[8'h05] <= 8'h05; array_s[8'h06] <= 8'h06; array_s[8'h07] <= 8'h07; array_s[8'h08] <= 8'h08; array_s[8'h09] <= 8'h09; array_s[8'h0a] <= 8'h0a; array_s[8'h0b] <= 8'h0b; array_s[8'h0c] <= 8'h0c; array_s[8'h0d] <= 8'h0d; array_s[8'h0e] <= 8'h0e; array_s[8'h0f] <= 8'h0f;
             array_s[8'h10] <= 8'h10; array_s[8'h11] <= 8'h11; array_s[8'h12] <= 8'h12; array_s[8'h13] <= 8'h13; array_s[8'h14] <= 8'h14; array_s[8'h15] <= 8'h15; array_s[8'h16] <= 8'h16; array_s[8'h17] <= 8'h17; array_s[8'h18] <= 8'h18; array_s[8'h19] <= 8'h19; array_s[8'h1a] <= 8'h1a; array_s[8'h1b] <= 8'h1b; array_s[8'h1c] <= 8'h1c; array_s[8'h1d] <= 8'h1d; array_s[8'h1e] <= 8'h1e; array_s[8'h1f] <= 8'h1f;
@@ -150,14 +154,14 @@ module rc4(
                     key_cpy_counter <= key_cpy_counter +1;
                     if (key_cpy_counter == key_length -1) begin
                         fsm <= KSA;
-                        ksa_j <= (ksa_j + array_s[(ksa_counter)] + key[(ksa_counter) % (key_length)]);
+                        ksa_j <= (array_s[0] + key[0]);
                     end
                 end // STOP KEY_CPY LOOP
             end // STOP KEY_CPY
             // ---- ---- ---- ---- ---- ---- ---- ----
             //      Key-Scheduling-Alorithm (KSA)
             // ---- ---- ---- ---- ---- ---- ---- ----
-            KSA: begin
+           KSA: begin
                 ksa_counter <= ksa_counter +1;
                 if (ksa_counter +1 == ksa_j)
                     ksa_j <= (ksa_j + array_s[(ksa_counter)] + key[(ksa_counter +1) % (key_length)]);
@@ -177,7 +181,8 @@ module rc4(
             PRGA: begin
                 if (READ_PLAINTEXT_OUT)
                     READ_PLAINTEXT_OUT <= 1'b0;
-                else begin
+                //else
+                //begin
                     if (!HOLD_IN) begin
                         prga_counter <= prga_counter +1;
                         if ((prga_counter +1) == prga_j)
@@ -186,9 +191,10 @@ module rc4(
                             prga_j <= prga_j + array_s[prga_counter +1];
                         array_s[prga_j] <= array_s[prga_counter];
                         array_s[prga_counter] <= array_s[prga_j];
-                        ENC_BYTE_OUT <= array_s[array_s[prga_j] + array_s[prga_counter]] ^ PLAIN_BYTE_IN;
+                        array_selector <= array_s[prga_j] + array_s[prga_counter];
+                        ENC_BYTE_OUT <= array_s[array_selector] ^ PLAIN_BYTE_IN;
                     end // STOP PRGA LOOP
-                 end // STOP HOLD_IN
+                 //end // STOP HOLD_IN
             end // STOP PRGA
             endcase // STOP FSM
         end // STOP RESET ELSE

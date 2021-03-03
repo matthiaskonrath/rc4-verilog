@@ -36,8 +36,8 @@ SOFTWARE.
 module controller(
     input wire CLK100MHZ,
     input wire btnC,
-    input wire [3:0] sw,
-    output wire [15:0] led
+    input wire btnCpuReset,
+    output wire [7:0] led
     );
 
 parameter KEY_SIZE=32;          // 256 Bit Key
@@ -57,26 +57,16 @@ assign led[7:0] = cipher_byte;
 
 
 // ---- ---- ---- ---- ---- ---- ---- ----
-//    CLOCK SETUP (via Clocking Wizard)
+//               CLOCK SETUP
 // ---- ---- ---- ---- ---- ---- ---- ----
-wire CLK87MHZ;
-wire CLK75MHZ;
-wire CLK50MHZ;
-wire CLK25MHZ;
-wire CLK10MHZ;
+wire CLK115MHZ;
 wire alternative_clk;
-assign alternative_clk = CLK87MHZ;
+assign alternative_clk = CLK115MHZ;
 wire clk_locked;
 
 clk_wiz_0 clk_generator (
   // Clock out ports
-  .clk_out1(CLK10MHZ),
-  .clk_out2(CLK25MHZ),
-  .clk_out3(CLK50MHZ),
-  .clk_out4(CLK75MHZ),
-  .clk_out5(CLK87MHZ),
-  .resetn(1'b1),
-  .locked(clk_locked),
+  .clk_out1(CLK115MHZ),
   .clk_in1(CLK100MHZ)
 );
 // STOP CLOCK SETUP
@@ -98,7 +88,7 @@ wire [7:0] ENC_BYTE;
 
 rc4 rc4_interface(
     .CLK_IN(alternative_clk),
-    .RESET_N_IN(sw[0]),
+    .RESET_N_IN(btnCpuReset),
     .KEY_SIZE_IN(KEY_SIZE),
     .KEY_BYTE_IN(KEY_BYTE),
     .PLAIN_BYTE_IN(PLAIN_BYTE),
@@ -121,7 +111,8 @@ always @(posedge alternative_clk) begin
     // ---- ---- ---- ---- ---- ---- ---- ----
     //                  RESET
     // ---- ---- ---- ---- ---- ---- ---- ----
-    if(!sw[0]) begin
+    if(!btnCpuReset)
+    begin
         STOP <= 0;
         HOLD <= 0;
         cipher_byte <= 0;
@@ -147,8 +138,7 @@ always @(posedge alternative_clk) begin
         if(btnC && btn_debounce) begin
             btn_debounce <= 0;
             START <= 1'b1;
-        end
-        if(START) begin
+        end if(START) begin
             START <= 1'b0;
         end // STOP START SIGNAL
         
@@ -158,12 +148,10 @@ always @(posedge alternative_clk) begin
         //              KEY TRNAFARE
         // ---- ---- ---- ---- ---- ---- ---- ----
         if (START_KEY_CPY || key_counter) begin
-            if (key_counter == KEY_SIZE)
-            begin
+            if (key_counter == KEY_SIZE) begin
                 key_counter <= 0;
                 KEY_BYTE <= 8'b00;
-            end
-            else begin
+            end else begin
                 key_counter <= key_counter +1;
                 KEY_BYTE <= KEY[key_counter];
             end
@@ -178,8 +166,7 @@ always @(posedge alternative_clk) begin
             if (plain_counter == PLAINTEXT_SIZE) begin
                 plain_counter <= 0;
                 PLAIN_BYTE <= 8'b00;
-            end
-            else begin
+            end else begin
                 plain_counter <= plain_counter +1;
                 PLAIN_BYTE <= PLAINTEXT[plain_counter];
             end
@@ -196,8 +183,7 @@ always @(posedge alternative_clk) begin
             HOLD <= 1'b1;
             trigger <= 1;
             cipher_byte <= ENC_BYTE;
-        end
-        else begin
+        end else begin
             if (plain_counter == 2 || cipher_counter)
                 cipher_counter <= cipher_counter +1;
         end // STOP CIPHERTEXT TRANSFARE

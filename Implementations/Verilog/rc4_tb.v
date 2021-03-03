@@ -33,12 +33,13 @@ SOFTWARE.
 */
 
 
+
 module rc4_tb;
 
 parameter KEY_SIZE=32;          // 256 Bit Key
 parameter PLAINTEXT_SIZE=32;
 
-reg CLK;
+reg CLK, CLK_SLOW;
 reg RESET_N;
 reg [7:0] KEY [0:31];
 reg [7:0] PLAINTEXT [0:31];
@@ -86,8 +87,7 @@ rc4 rc4_interface(
 // ---- ---- ---- ---- ---- ---- ---- ----
 //                  CLOCK
 // ---- ---- ---- ---- ---- ---- ---- ----
-always
-begin
+always begin
     CLK = 1'b1; 
     #1;
     CLK = 1'b0;
@@ -99,18 +99,13 @@ end // STOP CLOCK
 // ---- ---- ---- ---- ---- ---- ---- ----
 //              KEY TRNASFARE
 // ---- ---- ---- ---- ---- ---- ---- ----
-always @(posedge CLK)
-begin
-    if (START_KEY_CPY || key_counter)
-    begin
+always @(posedge CLK) begin
+    if (START_KEY_CPY || key_counter) begin
         
-        if (key_counter == KEY_SIZE)
-        begin
+        if (key_counter == KEY_SIZE) begin
             key_counter <= 0;
             KEY_BYTE <= 8'b00;
-        end
-        else
-        begin
+        end else begin
             key_counter <= key_counter +1;
             KEY_BYTE <= KEY[key_counter];
         end
@@ -122,17 +117,12 @@ end // STOP KEY TRANSFARE
 // ---- ---- ---- ---- ---- ---- ---- ----
 //           PLAINTEXT TRNSAFARE
 // ---- ---- ---- ---- ---- ---- ---- ----
-always @(posedge CLK)
-begin
-    if (READ_PLAINTEXT || plain_counter)
-    begin
-        if (plain_counter == PLAINTEXT_SIZE)
-        begin
+always @(posedge CLK) begin
+    if (READ_PLAINTEXT || plain_counter) begin
+        if (plain_counter == PLAINTEXT_SIZE) begin
             plain_counter <= 0;
             PLAIN_BYTE <= 8'b00;
-        end
-        else
-        begin
+        end else begin
             plain_counter <= plain_counter +1;
             PLAIN_BYTE <= PLAINTEXT[plain_counter];
         end
@@ -144,10 +134,8 @@ end // STOPPLAINTEXT TRANSFARE
 // ---- ---- ---- ---- ---- ---- ---- ----
 // CIPHERTEXT TRNASFARE
 // ---- ---- ---- ---- ---- ---- ---- ----
-always @(posedge CLK)
-begin
-    if (plain_counter == 2 || cipher_counter)
-    begin
+always @(posedge CLK) begin
+    if (plain_counter == 2 || cipher_counter) begin
         CAPTURED_CIPHERTEXT[cipher_counter] <= ENC_BYTE;
         // Debug ciphertext output
         //$display("CIPHERTEXT %d %h",cipher_counter, ENC_BYTE);
@@ -163,8 +151,7 @@ end // STOP CIPHERTEXT TRANSFARE
 // ---- ---- ---- ---- ---- ---- ---- ----
 //                  MAIN
 // ---- ---- ---- ---- ---- ---- ---- ----
-initial
-begin
+initial begin
     // ---- ---- ---- ---- ---- ---- ---- ----
     //              SETUP
     // ---- ---- ---- ---- ---- ---- ---- ----
@@ -203,10 +190,10 @@ begin
     $display("[+]    KNOWN_CIPHERTEXT[00:15]={0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H}", KNOWN_CIPHERTEXT[8'h00], KNOWN_CIPHERTEXT[8'h01], KNOWN_CIPHERTEXT[8'h02], KNOWN_CIPHERTEXT[8'h03], KNOWN_CIPHERTEXT[8'h04], KNOWN_CIPHERTEXT[8'h05], KNOWN_CIPHERTEXT[8'h06], KNOWN_CIPHERTEXT[8'h07], KNOWN_CIPHERTEXT[8'h08], KNOWN_CIPHERTEXT[8'h09], KNOWN_CIPHERTEXT[8'h0a], KNOWN_CIPHERTEXT[8'h0b], KNOWN_CIPHERTEXT[8'h0c], KNOWN_CIPHERTEXT[8'h0d], KNOWN_CIPHERTEXT[8'h0e], KNOWN_CIPHERTEXT[8'h0f]);
     $display("[+]    KNOWN_CIPHERTEXT[16:31]={0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H}", KNOWN_CIPHERTEXT[8'h10], KNOWN_CIPHERTEXT[8'h11], KNOWN_CIPHERTEXT[8'h12], KNOWN_CIPHERTEXT[8'h13], KNOWN_CIPHERTEXT[8'h14], KNOWN_CIPHERTEXT[8'h15], KNOWN_CIPHERTEXT[8'h16], KNOWN_CIPHERTEXT[8'h17], KNOWN_CIPHERTEXT[8'h18], KNOWN_CIPHERTEXT[8'h19], KNOWN_CIPHERTEXT[8'h1a], KNOWN_CIPHERTEXT[8'h1b], KNOWN_CIPHERTEXT[8'h1c], KNOWN_CIPHERTEXT[8'h1d], KNOWN_CIPHERTEXT[8'h1e], KNOWN_CIPHERTEXT[8'h1f]);
     // Null the ciphertext
-    for (x=0; x < PLAINTEXT_SIZE; x = x+1)
-    begin
+    for (x=0; x < PLAINTEXT_SIZE; x = x+1) begin
         CAPTURED_CIPHERTEXT[x] = 0;
     end
+    
     #5;
     RESET_N = 1;
     // STOP SETUP
@@ -232,10 +219,8 @@ begin
     $display("[+]    CAPTURED_CIPHERTEXT[00:15]={0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H}", CAPTURED_CIPHERTEXT[8'h00], CAPTURED_CIPHERTEXT[8'h01], CAPTURED_CIPHERTEXT[8'h02], CAPTURED_CIPHERTEXT[8'h03], CAPTURED_CIPHERTEXT[8'h04], CAPTURED_CIPHERTEXT[8'h05], CAPTURED_CIPHERTEXT[8'h06], CAPTURED_CIPHERTEXT[8'h07], CAPTURED_CIPHERTEXT[8'h08], CAPTURED_CIPHERTEXT[8'h09], CAPTURED_CIPHERTEXT[8'h0a], CAPTURED_CIPHERTEXT[8'h0b], CAPTURED_CIPHERTEXT[8'h0c], CAPTURED_CIPHERTEXT[8'h0d], CAPTURED_CIPHERTEXT[8'h0e], CAPTURED_CIPHERTEXT[8'h0f]);
     $display("[+]    CAPTURED_CIPHERTEXT[16:31]={0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H 0x%H}", CAPTURED_CIPHERTEXT[8'h10], CAPTURED_CIPHERTEXT[8'h11], CAPTURED_CIPHERTEXT[8'h12], CAPTURED_CIPHERTEXT[8'h13], CAPTURED_CIPHERTEXT[8'h14], CAPTURED_CIPHERTEXT[8'h15], CAPTURED_CIPHERTEXT[8'h16], CAPTURED_CIPHERTEXT[8'h17], CAPTURED_CIPHERTEXT[8'h18], CAPTURED_CIPHERTEXT[8'h19], CAPTURED_CIPHERTEXT[8'h1a], CAPTURED_CIPHERTEXT[8'h1b], CAPTURED_CIPHERTEXT[8'h1c], CAPTURED_CIPHERTEXT[8'h1d], CAPTURED_CIPHERTEXT[8'h1e], CAPTURED_CIPHERTEXT[8'h1f]);
 
-    for (x=0; x < PLAINTEXT_SIZE; x = x+1)
-    begin
-        if (KNOWN_CIPHERTEXT[x] != CAPTURED_CIPHERTEXT[x])
-        begin
+    for (x=0; x < PLAINTEXT_SIZE; x = x+1) begin
+        if (KNOWN_CIPHERTEXT[x] != CAPTURED_CIPHERTEXT[x]) begin
             $display("[!] The known ciphertext does not match the captured ciphertext --> Element ID: %d / Known: 0x%H / Captured: 0x%H ", x, KNOWN_CIPHERTEXT[x], CAPTURED_CIPHERTEXT[x]);
             error = error +1;
         end
@@ -249,7 +234,7 @@ begin
     // ---- ---- ---- ---- ---- ---- ---- ----
     $display("---- ---- ---- ---- ---- ---- ---- ---- ---- RESULT ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
     if (error == 0)
-        $display("[*] ... PASSED ...");
+       $display("[*] ... PASSED ...");
     else
         $display("[!] ... FAILED ...");
     $display("---- ---- ---- ---- ---- ---- ---- ---- ---- RESULT ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----");
