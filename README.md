@@ -27,12 +27,13 @@
 | BUFG | 2 | 32 | 6.25 |
 
 ### Speed tests
-| Implementation | Device | Frequency | Speed (Mbit/s) | Speed (MB/s) | Notes |
-| ------ | ------ | ------ | ------ | ------ | ------ |
-| Verilog | Nexys4 | ~88 MHz | ~704 Mbit/s | ~88 MB/s | optimized implementation |
-| HLS (C++) | Nexys4 | ~200 MHz | ~160 Mbit/s | ~20 MB/s | optimized implementation |
-| C++ | i7-8665U | unknown | ~120 Mbit/s | ~15 MB/s | not optimized / single threaded |
-| Python | i7-8665U | unknown | ~40 Mbit/s | ~5 MB/s | not optimized / single threaded |
+| Implementation | Device | Frequency | Speed (Mbit/s) | Speed (MB/s) | Optimizations | Source |
+| ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+| Verilog | Nexys4 | ~88 MHz | ~704 Mbit/s | ~88 MB/s | optimized implementation | this repository |
+| Assembly | i5-3230M | unknown | ~188 Mbit/s | ~23 MB/s | optimized implementation | https://www.charmysoft.com/app/rc4-cipher |
+| HLS (C++) | Nexys4 | ~200 MHz | ~160 Mbit/s | ~20 MB/s | optimized implementation | this repository |
+| C++ | i7-8665U | unknown | ~120 Mbit/s | ~15 MB/s | not optimized / single threaded | this repository |
+| Python | i7-8665U | unknown | ~40 Mbit/s | ~5 MB/s | not optimized / single threaded | this repository |
 
 ### Implementation information
 ##### For details see rc4_tb.v or controller.v
