@@ -116,3 +116,7 @@ end
 - https://www.binaryhexconverter.com/binary-to-hex-converter
 - https://gchq.github.io/CyberChef
 - https://reference.digilentinc.com/reference/programmable-logic/nexys-4/start
+
+### RC4 FPGA Papers (my implementations is faster, but far less efficient from an resource perspective)
+- https://www.researchgate.net/publication/261455297_Hardware_Implementation_of_High_Throughput_RC4_algorithm
+- https://research.ijcaonline.org/volume83/number4/pxc3892589.pdf
