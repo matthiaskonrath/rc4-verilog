@@ -120,3 +120,5 @@ end
 ### RC4 FPGA Papers (my implementations is faster, but far less efficient from an resource perspective)
 - https://www.researchgate.net/publication/261455297_Hardware_Implementation_of_High_Throughput_RC4_algorithm
 - https://research.ijcaonline.org/volume83/number4/pxc3892589.pdf
+- https://research.ijcaonline.org/volume47/number7/pxc3879973.pdf
+- https://www.sciencedirect.com/science/article/pii/S1877050915024345
