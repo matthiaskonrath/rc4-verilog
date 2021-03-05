@@ -29,8 +29,12 @@
 ### Speed tests
 | Implementation | Device | Frequency | Speed (Mbit/s) | Speed (MB/s) | Optimizations | Source |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
+<<<<<<< HEAD
 | Verilog | Nexys 4 | ~88 MHz | ~920 Mbit/s | ~115 MB/s | optimized implementation | this repository |
 | C++ | i7-8665U | unknown | ~920 Mbit/s | ~115 MB/s | not optimized / single threaded | this repository |
+=======
+| Verilog | Nexys4 | ~115 MHz | ~920 Mbit/s | ~115 MB/s | optimized implementation | this repository |
+>>>>>>> e03ec45b92eb0c3556750d3a4272a670c6daa028
 | Assembly | i5-3230M | unknown | ~188 Mbit/s | ~23 MB/s | optimized implementation | https://www.charmysoft.com/app/rc4-cipher |
 | HLS (C++) | Nexys 4 | ~200 MHz | ~160 Mbit/s | ~20 MB/s | optimized implementation | this repository |
 | Python | i7-8665U | unknown | ~32 Mbit/s | ~4 MB/s | not optimized / single threaded | this repository |
@@ -117,3 +121,9 @@ end
 - https://www.binaryhexconverter.com/binary-to-hex-converter
 - https://gchq.github.io/CyberChef
 - https://reference.digilentinc.com/reference/programmable-logic/nexys-4/start
+
+### RC4 FPGA Papers (my implementations is faster, but far less efficient from an resource perspective)
+- https://www.researchgate.net/publication/261455297_Hardware_Implementation_of_High_Throughput_RC4_algorithm
+- https://research.ijcaonline.org/volume83/number4/pxc3892589.pdf
+- https://research.ijcaonline.org/volume47/number7/pxc3879973.pdf
+- https://www.sciencedirect.com/science/article/pii/S1877050915024345
