@@ -1,14 +1,5 @@
 `timescale 1ns / 1ps
 /*
----- ---- ---- ---- ---- ---- ---- ----
-            Information
----- ---- ---- ---- ---- ---- ---- ----
-Author: Matthias Konrath
-Email:  matthias AT inet-sec.at
-
----- ---- ---- ---- ---- ---- ---- ----
-                LICENSE
----- ---- ---- ---- ---- ---- ---- ----
 MIT License
 
 Copyright (c) 2021 Matthias Konrath

@@ -22,9 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+
+
 #include <chrono>
 #include <iostream>
 #include <stdio.h>
+#include <cstring>
 
 #define N 256
 
@@ -131,8 +134,9 @@ int main()
 	printf("---- ---- ---- ---- ---- ---- ---- ----\n");
 	printf("[*] ... SPEED TEST ...\n");
 	// Reuse key
-	const uint32_t plaintext_size_speed_test = 10000000;
+	const uint32_t plaintext_size_speed_test = 1024 * 1000 * 50; // 50 Megabyte
 	uint8_t* plaintext_speed_test = (uint8_t*) malloc(plaintext_size_speed_test);
+	memset(plaintext_speed_test, 'a', (size_t) plaintext_size_speed_test);
 	uint8_t* ciphertext_test = (uint8_t*) malloc(plaintext_size_speed_test);
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 	rc4(
@@ -142,12 +146,19 @@ int main()
 		plaintext_speed_test,
 		ciphertext_test);
 	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+	/*
+	// For 50 MB --> 658b79745390f3ccd8242c9d0178a018add82ba8d0058adf9dfb3a2b02d188a3
+	printf("[*] Ciphertext (last 32 byte):  0x");
+	for (i = plaintext_size_speed_test-32; i < plaintext_size_speed_test; i++) {
+		printf("%02x", static_cast<int>(ciphertext_test[i]));
+	}
+	printf("\n");
+	*/
 	free(plaintext_speed_test);
 	free(ciphertext_test);
 	float time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count();
-	printf("[*] Encrypted %d MB in %.2f seconds (%.2f MB/s)\n", (plaintext_size_speed_test/1000000), float(time_ms/1000), float((plaintext_size_speed_test / 1000000) / float(time_ms / 1000)));
+	printf("[*] Encrypted %d MB in %.2f seconds (%.2f MB/s)\n", (plaintext_size_speed_test/(1024 * 1000)), float(time_ms/1000), float((plaintext_size_speed_test / (1024 * 1000)) / float(time_ms/1000)));
 
-	system("pause");
 	return 0;
 }
 

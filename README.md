@@ -29,11 +29,12 @@
 ### Speed tests
 | Implementation | Device | Frequency | Speed (Mbit/s) | Speed (MB/s) | Optimizations | Source |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-| Verilog | Nexys4 | ~88 MHz | ~920 Mbit/s | ~115 MB/s | optimized implementation | this repository |
+| Verilog | Nexys 4 | ~88 MHz | ~920 Mbit/s | ~115 MB/s | optimized implementation | this repository |
+| C++ | i7-8665U | unknown | ~920 Mbit/s | ~115 MB/s | not optimized / single threaded | this repository |
 | Assembly | i5-3230M | unknown | ~188 Mbit/s | ~23 MB/s | optimized implementation | https://www.charmysoft.com/app/rc4-cipher |
-| HLS (C++) | Nexys4 | ~200 MHz | ~160 Mbit/s | ~20 MB/s | optimized implementation | this repository |
-| C++ | i7-8665U | unknown | ~120 Mbit/s | ~15 MB/s | not optimized / single threaded | this repository |
-| Python | i7-8665U | unknown | ~40 Mbit/s | ~5 MB/s | not optimized / single threaded | this repository |
+| HLS (C++) | Nexys 4 | ~200 MHz | ~160 Mbit/s | ~20 MB/s | optimized implementation | this repository |
+| Python | i7-8665U | unknown | ~32 Mbit/s | ~4 MB/s | not optimized / single threaded | this repository |
+| OpenCL | Quadro P520 | unknown | ~24 Mbit/s | ~3 MB/s | not optimized / single threaded | this repository |
 
 ### Implementation information
 ##### For details see rc4_tb.v or controller.v

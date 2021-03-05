@@ -1,16 +1,4 @@
 """
----- ---- ---- ---- ---- ---- ---- ----
-            Information
----- ---- ---- ---- ---- ---- ---- ----
-Author: Matthias Konrath
-Email:  matthias AT inet-sec.at
-Title:  RC4 Implementation (python 2.7)
-Source: https://en.wikipedia.org/wiki/RC4
-Check:  https://gchq.github.io/CyberChef/#recipe=RC4(%7B'option':'Hex','string':'ae6c3c41884d35df3ab5adf30f5b2d360938c658341886b0ba510b421e5ab405'%7D,'Hex','Hex')&input=M2FlMjgwZDBkNWNkNzBkOGUwZjgxMzAwZGM5MDMxYTJlMGY4NTEyY2IzNWE3NTc5ZmQ3OTU3NWNmMjg3YzU5NQ
-
----- ---- ---- ---- ---- ---- ---- ----
-                LICENSE
----- ---- ---- ---- ---- ---- ---- ----
 MIT License
 
 Copyright (c) 2021 Matthias Konrath
@@ -33,6 +21,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+
+
 
 from timeit import default_timer as timer
 
@@ -127,13 +117,20 @@ print ''
 
 
 print '[*] SPEED TEST'
-test_size_bytes = 10000000
-payload_str = "a" * test_size_bytes
+test_size_bytes = 1024 * 1000 * 50 # 50 Megabyte
+payload_str = "61" * test_size_bytes
 payload_str_hex = payload_str.decode("hex")
 payload_str_length = len(payload_str)/2
+cyphertext = []
 
 start = timer()
 array_s = KSA(key_hex, key_length)
 keystream = PRGA(array_s, payload_str_length)
+for i in range(payload_str_length):
+    cyphertext.append(ord(payload_str_hex[i]) ^ keystream[i])
 stop = timer()
-'[+] Encrypted {} MB in {:.2f} seconds ({:.2f} MB/s)'.format((test_size_bytes / 1000000), (stop - start), float((float(test_size_bytes) / 1000000 ) / float(stop - start)))
+
+# For 50 MB --> 658b79745390f3ccd8242c9d0178a018add82ba8d0058adf9dfb3a2b02d188a3
+#last_bytes = ''.join('{:02x}'.format(x) for x in cyphertext[-32:])
+#print "[*] LAST 32 bytes: " + last_bytes
+print '[+] Encrypted {} MB in {:.2f} seconds ({:.2f} MB/s)'.format((test_size_bytes / (1024 * 1000)), (stop - start), float((float(test_size_bytes) / (1024 * 1000)) / float(stop - start)))
