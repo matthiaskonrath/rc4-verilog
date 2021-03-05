@@ -12,33 +12,29 @@
 (This inlcudes the test code from controller.v)
 | Resource | Utilization | Available | Utilization (%) |
 | ------ | ------ | ------ | ------ |
-| LUT | 11719 | 63400 | 18.48 |
-| FF | 2609 | 126800 | 2.06 |
-| BUFG | 2 | 32 | 6.25 |
+| LUT   | 11719 | 63400     | 18.48 |
+| FF    | 2609  | 126800    | 2.06 |
+| BUFG  | 2     | 32        | 6.25 |
 
 ### HLS resource utilization on Nexys 4 (xc7a100tcsg324-1)
 (This inlcudes the test code from controller.v)
 | Resource | Utilization | Available | Utilization (%) |
 | ------ | ------ | ------ | ------ |
-| LUT | 432 | 63400 | 0.68 |
-| LUTRAM | 15 | 19000 | 0.08 |
-| FF | 445 | 126800 | 0.35 |
-| BRAM | 0.50 | 135 | 0.37 |
-| BUFG | 2 | 32 | 6.25 |
+| LUT       | 432   | 63400     | 0.68 |
+| LUTRAM    | 15    | 19000     | 0.08 |
+| FF        | 445   | 126800    | 0.35 |
+| BRAM      | 0.50  | 135       | 0.37 |
+| BUFG      | 2     | 32        | 6.25 |
 
 ### Speed tests
 | Implementation | Device | Frequency | Speed (Mbit/s) | Speed (MB/s) | Optimizations | Source |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
-<<<<<<< HEAD
-| Verilog | Nexys 4 | ~88 MHz | ~920 Mbit/s | ~115 MB/s | optimized implementation | this repository |
-| C++ | i7-8665U | unknown | ~920 Mbit/s | ~115 MB/s | not optimized / single threaded | this repository |
-=======
-| Verilog | Nexys4 | ~115 MHz | ~920 Mbit/s | ~115 MB/s | optimized implementation | this repository |
->>>>>>> e03ec45b92eb0c3556750d3a4272a670c6daa028
-| Assembly | i5-3230M | unknown | ~188 Mbit/s | ~23 MB/s | optimized implementation | https://www.charmysoft.com/app/rc4-cipher |
-| HLS (C++) | Nexys 4 | ~200 MHz | ~160 Mbit/s | ~20 MB/s | optimized implementation | this repository |
-| Python | i7-8665U | unknown | ~32 Mbit/s | ~4 MB/s | not optimized / single threaded | this repository |
-| OpenCL | Quadro P520 | unknown | ~24 Mbit/s | ~3 MB/s | not optimized / single threaded | this repository |
+| Verilog   | Nexys 4       | ~115 MHz  | ~920 Mbit/s   | ~115 MB/s | optimized implementation          | this repository |
+| C++       | i7-8665U      | unknown   | ~920 Mbit/s   | ~115 MB/s | not optimized / single threaded   | this repository |
+| Assembly  | i5-3230M      | unknown   | ~188 Mbit/s   | ~23 MB/s  | optimized implementation          | https://www.charmysoft.com/app/rc4-cipher |
+| HLS (C++) | Nexys 4       | ~200 MHz  | ~160 Mbit/s   | ~20 MB/s  | optimized implementation          | this repository |
+| Python    | i7-8665U      | unknown   | ~32 Mbit/s    | ~4 MB/s   | not optimized / single threaded   | this repository |
+| OpenCL    | Quadro P520   | unknown   | ~24 Mbit/s    | ~3 MB/s   | not optimized / single threaded   | this repository |
 
 ### Implementation information
 ##### For details see rc4_tb.v or controller.v

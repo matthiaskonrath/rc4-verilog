@@ -22,8 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-
-
 kernel void rc4(global const unsigned char* key, const unsigned short key_size, global const unsigned char* plaintext, const unsigned int plaintext_size, global unsigned char* ciphertext) {
 	typedef unsigned char uint8_t;
 	typedef unsigned short uint16_t;

@@ -68,7 +68,6 @@ void swap(uint8_t *a, uint8_t *b) {
     *b = tmp;
 }
 
-
 int ksa(uint8_t *array_s, uint8_t *key, uint16_t key_size) {
     int j = 0;
     int i = 0;
@@ -82,7 +81,6 @@ int ksa(uint8_t *array_s, uint8_t *key, uint16_t key_size) {
     }
     return 0;
 }
-
 
 int prga(uint8_t *array_s, stream<uint8_t> &plaintext, stream<uint8_t> &ciphertext, uint32_t plaintext_size) {
 #pragma HLS pipeline enable_flush rewind

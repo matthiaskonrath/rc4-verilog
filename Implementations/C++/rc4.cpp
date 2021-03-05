@@ -22,8 +22,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-
-
 #include <chrono>
 #include <iostream>
 #include <stdio.h>
@@ -95,13 +93,13 @@ int main()
 		printf("%02x", static_cast<int>(key[i]));
 	}
 	printf("\n");
+
 	printf("[*] Plaintext:   0x");
 	for (i = 0; i < plaintext_size; i++) {
 		printf("%02x", static_cast<int>(plaintext[i]));
 	}
 	printf("\n");
 
-	// Ciphertext extraction and checking
 	printf("[*] Ciphertext:  0x");
 	for (i = 0; i < plaintext_size; i++) {
 		printf("%02x", static_cast<int>(ciphertext[i]));
@@ -127,7 +125,6 @@ int main()
 		printf("[!] ... FAILED ...\n");
 		printf("---- ---- ---- ---- ---- ---- ---- ----\n");
 	}
-
 
 	// Speed test
 	printf("\n");
@@ -162,7 +159,6 @@ int main()
 	return 0;
 }
 
-
 void rc4(
 	uint16_t key_size_in,
 	uint32_t plaintext_size_in,
@@ -187,13 +183,11 @@ void rc4(
 	prga(array_s, plaintext_in, ciphertext_out, plaintext_size_in);
 }
 
-
 void swap(uint8_t* a, uint8_t* b) {
 	uint8_t tmp = *a;
 	*a = *b;
 	*b = tmp;
 }
-
 
 int ksa(uint8_t* array_s, uint8_t* key, uint16_t key_size) {
 	int j = 0;
@@ -208,7 +202,6 @@ int ksa(uint8_t* array_s, uint8_t* key, uint16_t key_size) {
 	}
 	return 0;
 }
-
 
 int prga(uint8_t* array_s, uint8_t* plaintext, uint8_t* ciphertext, uint32_t plaintext_size) {
 	uint32_t i = 0;

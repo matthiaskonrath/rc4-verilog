@@ -47,5 +47,4 @@ void swap(uint8_t *a, uint8_t *b);
 int ksa(uint8_t *S, uint8_t *key, uint16_t key_size);
 int prga(uint8_t *S, stream<uint8_t> &plaintext, stream<uint8_t> &ciphertext, uint32_t plaintext_size);
 
-
 #endif
