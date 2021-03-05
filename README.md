@@ -58,18 +58,12 @@ rc4 rc4_interface(
 
 #### Key Transfare Code
 ```verilog
-always @(posedge CLK)
-begin
-    if (START_KEY_CPY || key_counter)
-    begin
-        
-        if (key_counter == KEY_SIZE)
-        begin
+always @(posedge CLK) begin
+    if (START_KEY_CPY || key_counter) begin
+        if (key_counter == KEY_SIZE) begin
             key_counter <= 0;
             KEY_BYTE <= 8'b00;
-        end
-        else
-        begin
+        end else begin
             key_counter <= key_counter +1;
             KEY_BYTE <= KEY[key_counter];
         end
@@ -79,17 +73,12 @@ end
 
 #### Plaintext Transfare Code (stops after the counter overflows or the plaintext size is reached)
 ```verilog
-always @(posedge CLK)
-begin
-    if (READ_PLAINTEXT || plain_counter)
-    begin
-        if (plain_counter == PLAINTEXT_SIZE)
-        begin
+always @(posedge CLK) begin
+    if (READ_PLAINTEXT || plain_counter) begin
+        if (plain_counter == PLAINTEXT_SIZE) begin
             plain_counter <= 0;
             PLAIN_BYTE <= 8'b00;
-        end
-        else
-        begin
+        end else begin
             plain_counter <= plain_counter +1;
             PLAIN_BYTE <= PLAINTEXT[plain_counter];
         end
@@ -99,10 +88,8 @@ end
 
 #### Ciphertext Transfare Code (stops after the counter overflows or the plaintext / ciphertext size is reached)
 ```verilog
-always @(posedge CLK)
-begin
-    if (plain_counter == 2 || cipher_counter)
-    begin
+always @(posedge CLK) begin
+    if (plain_counter == 2 || cipher_counter) begin
         CAPTURED_CIPHERTEXT[cipher_counter] <= ENC_BYTE;
         if (cipher_counter == PLAINTEXT_SIZE-1)
             cipher_counter <= 0;
