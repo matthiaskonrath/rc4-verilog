@@ -13,7 +13,7 @@
 #define CL_HPP_TARGET_OPENCL_VERSION 120
 #define CL_HPP_ENABLE_EXCEPTIONS
 
-#include "CL/cl2.hpp"
+#include "CL/opencl.hpp"
 
 using namespace std;
 

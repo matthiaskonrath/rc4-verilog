@@ -1,6 +1,7 @@
 /*
  *	INITIAL SOURCE: https://github.com/gcielniak/OpenCL-Tutorials
- *	COMPILATION: g++ -lOpenCL -o rc4_opencl rc4_opencl.cpp
+ *	COMPILATION (linux): g++ -o rc4_opencl rc4_opencl.cpp -lOpenCL
+ *	COMPILATION (macos): g++ -o rc4_opencl rc4_opencl.cpp -std=c++11 -framework OpenCl
  */
 
 

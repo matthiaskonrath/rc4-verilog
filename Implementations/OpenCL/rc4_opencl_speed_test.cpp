@@ -148,7 +148,7 @@ int main(int argc, char **argv) {
 			std::cout << "---- ---- ---- ---- ---- ---- ---- ----" << std::endl;
 		}
 
-		printf("[*] Encrypted %d MB in %.2f seconds (%.2f MB/s)\n", (plaintext_size_bytes/(1024 * 1000)), float(time_ms/1000), float((plaintext_size_bytes / (1024 * 1000)) / float(time_ms/1000)));
+		printf("[*] Encrypted %lu MB in %.2f seconds (%.2f MB/s)\n", (plaintext_size_bytes/(1024 * 1000)), float(time_ms/1000), float((plaintext_size_bytes / (1024 * 1000)) / float(time_ms/1000)));
 
 	}
 	catch (cl::Error err) {
