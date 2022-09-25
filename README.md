@@ -35,6 +35,8 @@ EXPERIMENTAL Verilog (and HLS, C++, Python) implementation of the RC4 stream cip
 | HLS (C++) | Nexys 4       | ~200 MHz  | ~160 Mbit/s   | ~20 MB/s  | optimized implementation          | this repository |
 | Python    | i7-8665U      | unknown   | ~32 Mbit/s    | ~4 MB/s   | not optimized / single threaded   | this repository |
 | OpenCL    | Quadro P520   | unknown   | ~24 Mbit/s    | ~3 MB/s   | not optimized / single threaded   | this repository |
+| OpenSSL   | Apple M1      | unknown   | -             | ~900 MB/s | 16 byte blocks                    | OpenSSL |
+| OpenSSL   | Apple M1      | unknown   | -             | ~1.1 GB/s | 16384 byte blocks                 | OpenSSL |
 
 ### Implementation information
 ##### For details see rc4_tb.v or controller.v
