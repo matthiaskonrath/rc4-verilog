@@ -3,7 +3,7 @@ EXPERIMENTAL Verilog (and HLS, C++, Python) implementation of the RC4 stream cip
 ### General information (pure verilog implementation)
 - 115MHz speed was achived on the Nexys 4 (xc7a100tcsg324-1)
     - WNS=0.008 / TNS=0.0ns / WHS=0.085ns / THS=0.0ns
-    - Total On-Chip Pwer: ~0.234W
+    - Total On-Chip Power: ~0.234W
 - ~500 cycles after the reset, encrypted output gets generated
 - Every cycle one byte gets encrypted
 - To use the RC4 block as an cheap PRNG just put a 8'b00 into the PLAIN_BYTE_IN
