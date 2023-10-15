@@ -135,7 +135,7 @@ always @(posedge alternative_clk) begin
         
         
         // ---- ---- ---- ---- ---- ---- ---- ----
-        //              KEY TRNAFARE
+        //              KEY TRANSFARE
         // ---- ---- ---- ---- ---- ---- ---- ----
         if (START_KEY_CPY || key_counter) begin
             if (key_counter == KEY_SIZE) begin
@@ -150,7 +150,7 @@ always @(posedge alternative_clk) begin
         
         
         // ---- ---- ---- ---- ---- ---- ---- ----
-        //          PLAINTEXT TRNAFARE
+        //          PLAINTEXT TRANSFARE
         // ---- ---- ---- ---- ---- ---- ---- ----
         if (READ_PLAINTEXT || plain_counter) begin
             if (plain_counter == PLAINTEXT_SIZE) begin
