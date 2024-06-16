@@ -30,7 +30,7 @@ EXPERIMENTAL Verilog (and HLS, C++, Python) implementation of the RC4 stream cip
 | Implementation | Device | Frequency | Speed (Mbit/s) | Speed (MB/s) | Optimizations | Source |
 | ------ | ------ | ------ | ------ | ------ | ------ | ------ |
 | Verilog   | Nexys 4       | ~115 MHz  | ~920 Mbit/s   | ~115 MB/s | optimized implementation          | this repository |
-| C++       | i7-8665U      | unknown   | ~920 Mbit/s   | ~115 MB/s | not optimized / single threaded   | this repository |
+| C++       | i7-8665U      | unknown   | -             | ~1.1 GB/s | not optimized / single threaded   | this repository |
 | Assembly  | i5-3230M      | unknown   | ~188 Mbit/s   | ~23 MB/s  | optimized implementation          | https://www.charmysoft.com/app/rc4-cipher |
 | HLS (C++) | Nexys 4       | ~200 MHz  | ~160 Mbit/s   | ~20 MB/s  | optimized implementation          | this repository |
 | Python    | i7-8665U      | unknown   | ~32 Mbit/s    | ~4 MB/s   | not optimized / single threaded   | this repository |

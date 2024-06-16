@@ -22,6 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+
+/*
+Compile with this command:
+	g++ -O1 -o rc4 rc4.cpp && ./rc4
+*/
+
 #include <chrono>
 #include <iostream>
 #include <stdio.h>
